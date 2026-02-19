@@ -2,14 +2,15 @@ import './TaskCard.css'
 
 function TaskCard(props) {
     return (<div>
-        <h3>{props.title}</h3>
+        <h3 className={props.priority === 'High' ? "priority-text" : ""}>{props.title}</h3>
         <p>Due: {props.dueDate}</p>
         <p>Priority: {props.priority}</p>
         <p>Assigned to: {props.assignedTo}</p>
+        <p>Status: Pending</p>
     </div>);
 }
 
-```````````````````````````````````
+`
 Alternative syntax to read props:
 
 function TaskCard({title, dueDate, priority}) {
@@ -20,7 +21,7 @@ function TaskCard({title, dueDate, priority}) {
     </div>);
 }
 
-`````````````````````````````````
+`
 
 
 
