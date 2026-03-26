@@ -101,7 +101,7 @@ function App() {
       <div>
         <label>Due date:</label>
         <input
-          type='text'
+          type='date'
           name='dueDate'
           value={formData.dueDate}
           onChange={(e) => updateFormData({
