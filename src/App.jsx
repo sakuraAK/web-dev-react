@@ -1,40 +1,35 @@
-import { useState, useEffect } from 'react';
 import './App.css'
 import './components/TaskCard/TaskCard.css'
-import TaskCard from './components/TaskCard/TaskCard';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import StatsPage from './pages/StatsPage';
+import HomePage from './pages/HomePage';
+import { useState, useEffect } from "react";
+import Layout from './pages/Layout';
+import TaskDetail from './components/TaskDetail/TaskDetail';
 
 
-const name = "Andrey";
 
 
 function App() {
-
-
   //run on rendering
   //useEffect(() => {console.log("use effect running")});
 
   //run once
-  //useEffect(() => {console.log("Run once")}, []);
+  //useEffect(() => { console.log("Run once") }, []);
 
 
 
-  const [tasks, updateTasks] =  useState(() => {
+  const [tasks, updateTasks] = useState(() => {
     const savedTasks = localStorage.getItem("tasks");
     return savedTasks ? JSON.parse(savedTasks) : [];
   });
 
-  const [formData, updateFormData] = useState({
-    title: "",
-    priority: "High",
-    dueDate: "",
-  });
-
   useEffect(() => {
-      localStorage.setItem("tasks", JSON.stringify(tasks)); 
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  function addTask() {
-  
+  function addTask(formData) {
+
     if (formData.title.trim() === "") {
       return;
     }
@@ -46,81 +41,35 @@ function App() {
       dueDate: formData.dueDate,
     }
 
-
-
     updateTasks([...tasks, newTask]);
 
-    updateFormData({
-      title: "",
-      priority: "High",
-      dueDate: "",
-    });
   }
 
   function onDeleteTask(id) {
-        console.log("Deleting task");
-        updateTasks([...tasks.filter(t => t.id !== id)]);
+    console.log("Deleting task");
+    updateTasks([...tasks.filter(t => t.id !== id)]);
   }
 
   return (
-  <>
-    <h1>Hello {name} below are your tasks:</h1>
-    <form onSubmit={(e) => {
-          e.preventDefault();
-          addTask();
-       }}>
-      <div>
-        <label>Task name:</label>
-        <input
-          type='text'
-          name='title'
-          value={formData.title}
-          onChange={(e) => updateFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-          })}
-        />
-          { formData.title.trim() === "" && <p className="validation">Title required</p>}
-      </div>
-      <div>
-        <label>Priority:</label>
-        <select
-          name='priority'
-          value={formData.priority}
-          onChange={(e) => updateFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-          })}
-        >
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
-       
-      </div>
-      <div>
-        <label>Due date:</label>
-        <input
-          type='date'
-          name='dueDate'
-          value={formData.dueDate}
-          onChange={(e) => updateFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-          })}
-        />
-      </div>
-      <button>Add</button>
-    </form>
-    
-    {
-      tasks.map(task => (
-        <TaskCard key={task.id} {...task} onDeleteTask={() => onDeleteTask(task.id)}/>
-      ))
-    }
-    
-  </>
-);
+    <BrowserRouter>
+
+      <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route
+            index
+            element={<HomePage
+              tasks={tasks}
+              addTask={addTask}
+              onDeleteTask={onDeleteTask}
+            />} />
+          <Route path="stats" element={<StatsPage tasks={tasks} />} />
+          <Route path="tasks/:id" element={<TaskDetail />}/>
+          <Route path="*" element={<h1>404: PAGE NOT FOUND</h1>}/>
+        </Route>
+      </Routes>
+
+    </BrowserRouter>
+  );
 
 
 }

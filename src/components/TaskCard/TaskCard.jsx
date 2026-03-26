@@ -1,4 +1,5 @@
 //import './TaskCard.css'
+import { Link } from  "react-router-dom"
 
 // function TaskCard(props) {
 //     return (<div>
@@ -13,12 +14,12 @@
 
 //Alternative syntax to read props:
 
-function TaskCard({title, dueDate, priority, onDeleteTask}) {
+function TaskCard({id, title, dueDate, priority, onDeleteTask}) {
     return (<div className="task-item">
         <h3>{title}</h3>
         <span className={`task-priority ${priority.toLowerCase()}`}>{priority}</span>
         {dueDate && <p>Due Date: {dueDate}</p>}
-        <p></p>
+        <p><Link to={`/tasks/${id}`}>View Details</Link></p>
         <button onClick={onDeleteTask}>Delete</button>
     </div>);
 }
