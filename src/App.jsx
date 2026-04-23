@@ -6,7 +6,7 @@ import HomePage from './pages/HomePage';
 import Layout from './pages/Layout';
 import TaskDetail from './components/TaskDetail/TaskDetail';
 import TaskContextProvider from './components/TaskContextProvider/TaskContextProvider';
-
+import { ThemeContextProvider} from './context/ThemeContextProvider';
 
 
 
@@ -17,8 +17,8 @@ function App() {
   //run once
   //useEffect(() => { console.log("Run once") }, []);
 
-
   return (
+    <ThemeContextProvider>
     <TaskContextProvider>
         <BrowserRouter>
 
@@ -35,6 +35,7 @@ function App() {
 
       </BrowserRouter>
     </TaskContextProvider>
+    </ThemeContextProvider>
     
   );
 

@@ -5,6 +5,7 @@ import TaskContext from '../../context/TaskContext';
 
 function TaskList() {
     const { tasks } = useContext(TaskContext);
+    console.log("TaskList rendered");
     return (
         <>
             {

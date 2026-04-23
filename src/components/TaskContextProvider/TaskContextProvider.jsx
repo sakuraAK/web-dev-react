@@ -18,8 +18,7 @@ function TaskContextProvider({ children }) {
         if (!response.ok) {
           throw new Error("Failed to fetch tasks");
         }
-        console.log(response);
-
+        
         const data = await response.json();
 
         updateTasks(data.tasks);
@@ -48,6 +47,8 @@ function TaskContextProvider({ children }) {
       dueDate: formData.dueDate,
     };
 
+    updateLoading(true);
+
     fetch("http://localhost:3000/tasks", {
       method: "POST",
       headers: {
@@ -62,12 +63,32 @@ function TaskContextProvider({ children }) {
       .then((data) => updateTasks([...tasks, data.task]))
       .catch((err) => {
         updateError("Failed to add task error: " + err.message);
-      });
+      })
+      .finally(() => updateLoading(false));
   }
 
   function onDeleteTask(id) {
-    console.log("Deleting task");
-    updateTasks([...tasks.filter((t) => t.id !== id)]);
+
+    updateLoading(true);
+
+    fetch(`http://localhost:3000/tasks/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+       if(!response.ok) {
+          throw Error("Unable to delete the task");
+       }
+       return response.json();
+    }).then((data) => {
+        updateTasks([...tasks.filter((t) => t.id !== data.task.id)]);
+    }).catch((err) => {
+       updateError("Failed to delete task error: " + err.message);
+    }).finally(() => updateLoading(false));
+
+
+    
   }
 
   const value = {

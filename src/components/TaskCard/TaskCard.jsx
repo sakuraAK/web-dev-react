@@ -2,6 +2,7 @@
 import { useContext } from "react";
 import { Link } from  "react-router-dom"
 import TaskContext from "../../context/TaskContext";
+import React from "react";
 
 // function TaskCard(props) {
 //     return (<div>
@@ -16,8 +17,10 @@ import TaskContext from "../../context/TaskContext";
 
 //Alternative syntax to read props:
 
-function TaskCard({id, title, dueDate, priority}) {
+const TaskCard = React.memo(function TaskCard({id, title, dueDate, priority}) {
     
+    console.log("TaskCard rendered");
+
     const { onDeleteTask } = useContext(TaskContext);
     
     return (<div className="task-item">
@@ -27,7 +30,7 @@ function TaskCard({id, title, dueDate, priority}) {
         <p><Link to={`/tasks/${id}`}>View Details</Link></p>
         <button onClick={() => onDeleteTask(id)}>Delete</button>
     </div>);
-}
+});
 
 
 
