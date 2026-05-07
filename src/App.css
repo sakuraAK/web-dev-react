@@ -230,4 +230,6 @@ form button:active {
   }
 }
 
-
+.theme-button {
+   margin-left: 1em;
+}

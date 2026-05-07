@@ -11,7 +11,7 @@ function Layout() {
       <nav>
         <Link to="/">Home|</Link>
         <Link to="/stats">Stats</Link>
-        <button onClick={toggleTheme}>
+        <button className="theme-button" onClick={toggleTheme}>
           {theme === "dark" ? "Light" : "Dark"}
         </button>
       </nav>
