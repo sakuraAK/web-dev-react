@@ -9,7 +9,7 @@ function TaskContextProvider({ children }) {
   //   });
 
 
-  const { tasks, loading, error, addTask, onDeleteTask } = useTasks();
+  const { tasks, loading, error, addTask, onDeleteTask, updateTask } = useTasks();
   
 
   const value = {
@@ -18,6 +18,7 @@ function TaskContextProvider({ children }) {
     error,
     addTask,
     onDeleteTask,
+    updateTask,
   };
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
