@@ -151,6 +151,7 @@ export function useTasks() {
     };
 
     const updateTask = (id, formData) => {
+       
         if(formData.title.trim() === "") {
             return;
         }
@@ -162,7 +163,7 @@ export function useTasks() {
         }
 
         dispatch({ type: ActionType.UPDATE_TASK_START } );
-        fetch('http://localhost:3000/tasks/${id}', {
+        fetch(`http://localhost:3000/tasks/${id}`, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
